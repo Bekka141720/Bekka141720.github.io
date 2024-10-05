@@ -94,7 +94,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: red;
+            background-color: white;
             border: none;
             padding: 15px;
             border-radius: 50%;
@@ -189,60 +189,59 @@
         /* Sección ¿Quiénes somos? */
         .quienes-somos-container {
             display: flex;
+            background-color: pink;
             justify-content: space-around;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 40px;
+            margin-top: 40px;
+
         }
 
         .quienes-somos-container h2 {
             font-size: 4rem;
             animation: rainbow 3s linear infinite; /* Efecto arcoíris para el título */
+
         }
 
         .quienes-somos-container .persona {
-            width: 45%;
+            width: 65%;
             text-align: center;
             padding: 10px;
             border-radius: 10px;
+
         }
 
         .quienes-somos-container img {
             width: 100%; /* Asegura que la imagen ocupe todo el espacio del personaje */
             height: auto;
             border-radius: 10px;
+
         }
 
         .quienes-somos-container p {
             font-size: 1.5rem; /* Tamaño del texto descriptivo */
         }
 
-        /* Estilos para la galería */
-        .galeria {
-            display: none; /* Mantener oculta hasta seleccionarla desde el menú */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco para la galería */
-            padding: 20px;
-        }
+       
 
         .galeria h2 {
             font-size: 3rem;
-            color: #ff66b2;
+            color: #1f61cc;
             margin-bottom: 20px;
             animation: rainbow 5s infinite; /* Efecto arcoíris en el mensaje */
+background-color: pink;
         }
 
         .galeria p {
             font-size: 2rem;
             text-align: center;
-            color: red;
+            color: black;
             margin: 20px 0;
             padding: 10px;
             background-color: #ffe6e6;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+background-color: pink;
         }
 
         /* Botón para subir fotos */
@@ -253,6 +252,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
+background-color: pink;
             font-size: 1.5rem;
             margin-bottom: 20px; /* Añadir espacio debajo del botón */
         }
@@ -263,17 +263,18 @@
 
         /* Previsualización de imágenes subidas */
         .gallery-preview {
-            margin-top: 20px;
+            margin-top: 40px;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 20px;
         }
 
         .gallery-preview img {
-            width: 150px; /* Tamaño de las imágenes */
+            width: 300px; /* Tamaño de las imágenes */
             height: auto;
-            border-radius: 10px;
+            border-radius: 20px;
             cursor: pointer; /* Cambiar cursor al pasar por encima */
+background-color: pink;
         }
 
         /* Estilo para el modal */
