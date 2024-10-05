@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa para ti</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: pink;
+            background-image: url('images/fondo.gif'); /* Fondo decorativo (GIF o imagen estática) */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            animation: rainbow 3s linear infinite;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+            font-size: 4rem; /* Aumentar el tamaño del título principal */
+        }
+
+        /* Efecto arcoíris */
+        @keyframes rainbow {
+            0% { color: red; }
+            16% { color: orange; }
+            32% { color: yellow; }
+            48% { color: green; }
+            64% { color: blue; }
+            80% { color: indigo; }
+            100% { color: violet; }
+        }
+
+        .output {
+            margin: 20px auto;
+            white-space: pre-wrap;
+            max-height: 50vh;
+            overflow-y: auto;
+            border: 2px solid #fff;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            width: 90%; /* Aumentar el ancho */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 28px; /* Aumentar el tamaño del texto */
+            color: black;
+            position: relative;
+            z-index: 1;
+        }
+
+        .start-message {
+            color: #fff;
+            background-color: rgba(230, 0, 115, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 20px; /* Aumentar el tamaño del mensaje */
+            text-align: center;
+            width: 350px; /* Aumentar el ancho del mensaje */
+            margin: 20px auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .background-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 0;
+            z-index: 0;
+        }
+
+        .background-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Botón flotante en la esquina inferior derecha */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: red;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: 28px; /* Aumentar el tamaño del botón */
+            color: white;
+            z-index: 2;
+        }
+
+        .floating-button:hover {
+            background-color: #ff6699;
+        }
+
+        /* Menú desplegable */
+        .floating-menu {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            z-index: 2;
+        }
+
+        .floating-menu a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+
+        .floating-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .floating-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Estilos para las secciones */
+        .section-content {
+            display: none; /* Ocultar secciones inicialmente */
+            margin: 0; /* Eliminar el margen */
+            width: 100%; /* Ocupa todo el ancho */
+            height: calc(100vh - 100px); /* Altura total menos el espacio de título y menú */
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px; /* Aumentar el padding */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            overflow-y: auto; /* Habilitar el desplazamiento */
+        }
+
+        .active {
+            display: block; /* Mostrar la sección activa */
+        }
+
+        /* Sección Nuestra Historia - fondo rosa */
+        .nuestra-historia {
+            background-color: pink; /* Cambia el fondo a rosa */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #000; /* Cambia el color del texto para mayor legibilidad */
+        }
+
+        /* Título de nuestra historia */
+        .nuestra-historia h2 {
+            font-size: 4rem; /* Aumentar el tamaño del título de nuestra historia */
+            animation: rainbow 3s linear infinite; /* Efecto arcoíris */
+        }
+
+        /* Estilo para el texto dentro de la sección de nuestra historia */
+        .nuestra-historia p {
+            font-size: 2rem; /* Aumentar el tamaño del texto */
+            line-height: 1.5; /* Mejorar el espaciado entre líneas */
+        }
+
+        /* Estilo para el video */
+        .nuestra-historia video {
+            width: 70%; /* Hacer el video más pequeño */
+            border-radius: 10px;
+        }
+
+        /* Sección ¿Quiénes somos? */
+        .quienes-somos-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .quienes-somos-container h2 {
+            font-size: 4rem;
+            animation: rainbow 3s linear infinite; /* Efecto arcoíris para el título */
+        }
+
+        .quienes-somos-container .persona {
+            width: 45%;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .quienes-somos-container img {
+            width: 100%; /* Asegura que la imagen ocupe todo el espacio del personaje */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .quienes-somos-container p {
+            font-size: 1.5rem; /* Tamaño del texto descriptivo */
+        }
+
+        /* Estilos para la galería */
+        .galeria {
+            display: none; /* Mantener oculta hasta seleccionarla desde el menú */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco para la galería */
+            padding: 20px;
+        }
+
+        .galeria h2 {
+            font-size: 3rem;
+            color: #ff66b2;
+            margin-bottom: 20px;
+            animation: rainbow 5s infinite; /* Efecto arcoíris en el mensaje */
+        }
+
+        .galeria p {
+            font-size: 2rem;
+            text-align: center;
+            color: red;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #ffe6e6;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Botón para subir fotos */
+        .upload-btn {
+            padding: 10px 20px;
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-bottom: 20px; /* Añadir espacio debajo del botón */
+        }
+
+        .upload-btn:hover {
+            background-color: #ff85c2;
+        }
+
+        /* Previsualización de imágenes subidas */
+        .gallery-preview {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .gallery-preview img {
+            width: 150px; /* Tamaño de las imágenes */
+            height: auto;
+            border-radius: 10px;
+            cursor: pointer; /* Cambiar cursor al pasar por encima */
+        }
+
+        /* Estilo para el modal */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro */
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Feliz dos meses juntos, mi alma ❤️</h1>
+    <div class="output" id="output"></div>
+
+    <div class="start-message" id="startMessage">
+        Presiona ENTER mi amor ❤️
+    </div>
+
+    <div class="background-grid">
+        <img src="images/IMG_0465.JPEG" alt="Imagen 1">
+        <img src="images/IMG_1744.JPEG" alt="Imagen 2">
+        <img src="images/IMG_0958.JPEG" alt="Imagen 3">
+        <img src="images/IMG_1063.JPEG" alt="Imagen 4">
+        <img src="images/IMG_1463.JPEG" alt="Imagen 5">
+        <img src="images/IMG_1224.JPEG" alt="Imagen 6">
+        <img src="images/IMG_1229.JPEG" alt="Imagen 7">
+        <img src="images/IMG_1689.JPEG" alt="Imagen 8">
+        <img src="images/IMG_1352.JPEG" alt="Imagen 9">
+        <img src="images/IMG_1404.JPEG" alt="Imagen 10">
+        <img src="images/IMG_1429.JPEG" alt="Imagen 11">
+        <img src="images/IMG_1673.JPEG" alt="Imagen 12">
+        <img src="images/IMG_1472.JPEG" alt="Imagen 13">
+        <img src="images/IMG_1508.JPEG" alt="Imagen 14">
+        <img src="images/IMG_1554.JPEG" alt="Imagen 15">
+    </div>
+
+    <!-- Botón en forma de corazón en la esquina inferior derecha -->
+    <button class="floating-button" id="heartButton">❤️</button>
+
+    <!-- Menú desplegable -->
+    <div class="floating-menu" id="floatingMenu">
+        <a href="#" data-target="historia">Nuestra historia</a>
+        <a href="#" data-target="quienesSomos">¿Quiénes somos?</a>
+        <a href="#" data-target="galeria">Galería</a>
+        <a href="#" id="inicio">Volver al inicio</a>
+    </div>
+
+    <!-- Sección Nuestra Historia -->
+    <div class="section-content nuestra-historia" id="historia">
+        <h2>Nuestra historia</h2>
+        <p>Cómo empezar este apartado jajajaja. Es algo largo, pero me hace feliz recordarlo. ¿Cómo olvidar aquel 29 de abril cuando conocí a la chica que cambiaría mi vida de la manera más alegre posible? Luego empecé a hablarle de la manera más random y, poco a poco, nos hicimos cada día más amigos e inseparables, viviendo muchas aventuras, tanto buenas como malas, pero siempre juntos. Así, cada vez ibas conquistando mi corazón y ganándote un lugar especial que ahora solo te pertenece a ti. Hasta que decidí armarme de valor y decirte todos mis sentimientos hacia ti, con miedo a perder tu amistad, para luego sentirme el chico más afortunado del mundo. Finalmente, empezamos a ser novios y llevamos dos meses de relación maravillosos que nos permitieron dejar atrás muchos miedos y convencernos de nuestros sentimientos. Sé que esta historia todavía necesita muchas más palabras que faltan, pero con el tiempo espero poder ir llenándola poco a poco.</p>
+        <video controls>
+            <source src="videos/video.mp4" type="video/mp4"> <!-- Cambia 'videos/video.mp4' por la ruta correcta de tu video -->
+            Tu navegador no soporta la etiqueta de video.
+        </video>
+    </div>
+
+    <!-- Sección ¿Quiénes somos? -->
+    <div class="section-content" id="quienesSomos">
+        <h2>¿Quiénes somos?</h2>
+        <div class="quienes-somos-container">
+            <div class="persona">
+                <h3>Di</h3>
+                <img src="images/b1.jpg" alt="Di"> <!-- Asegúrate que esta imagen esté en la carpeta correcta -->
+                <p>La reina de esta historia, el amor de mi vida y la razón por la que leo.</p>
+            </div>
+            <div class="persona">
+                <h3>Javi</h3>
+                <img src="images/g1.jpg" alt="Javi"> <!-- Asegúrate que esta imagen esté en la carpeta correcta -->
+                <p>El afortunado chico que tuvo la magnífica dicha de encontrarla sin buscarla.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección Galería -->
+    <div class="section-content galeria" id="galeria">
+        <h2>Nuestra galería de momentos juntos</h2>
+        <p class="romantic-message">Aquí subiremos recuerdos de todos los momentos que pasemos juntos <3</p>
+        <input type="file" id="uploadPhoto" accept="image/*" class="upload-btn">
+        <div class="gallery-preview" id="galleryPreview"></div>
+        <button id="clearGallery" class="upload-btn">Eliminar fotos</button> <!-- Botón para eliminar fotos -->
+    </div>
+
+    <!-- Ruta al archivo de audio -->
+    <audio id="backgroundMusic" src="/mnt/data/cancion.mp3" loop></audio>
+
+    <!-- Modal para ver la imagen ampliada -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <script>
+        let output = document.getElementById("output");
+        let step = 0;
+        const startMessage = document.getElementById("startMessage");
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const heartButton = document.getElementById("heartButton");
+        const floatingMenu = document.getElementById("floatingMenu");
+        const uploadPhoto = document.getElementById('uploadPhoto');
+        const galleryPreview = document.getElementById('galleryPreview');
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+        const closeModal = document.getElementsByClassName("close")[0];
+        const clearGallery = document.getElementById('clearGallery');
+
+        const mensajes = [
+            "\tBueno, amor, probablemente ya estés en tu casa, pero qué digo, no es probable, ya estás en tu casa un poquito feliz y estás viendo esto jajajaja. Primero que nada, quiero decirte que soy muy malo programando, y ni se diga decorando, pero quería darte algo con mucho cariño y esfuerzo, por lo que espero de todo corazón poder arrancarte una sonrisa y hacerte feliz. Así que espero que lo disfrutes, mi vida.",
+            "\tPresiona ENTER en el teclado, bonita.",
+            "\tBueno, ¿qué decir, amor? Ya son dos meses de novios y de contar contigo en todo momento y haberte vuelto cada día una parte más necesaria en mi vida… Creo que me quedaría corto al expresar lo afortunado que soy de haberte conocido y de que formes parte de mi vida. Me haces tan bien, me haces tan feliz, que a veces sigo sin creer que realmente estoy viviendo esto, pero me convenzo de que es real cuando me tomas entre tus brazos. Quiero nombrar algunas de las razones por las cuales me enamoré de ti y por las cuales te admiro y te considero mi persona favorita en el mundo.",
+            "\t1) Nadie, pero nadie en el mundo, tiene ese corazón tuyo que, aunque pienses que es algo que te hace débil, es todo lo contrario, amor, porque eres capaz de brindarle tu mano incluso a personas que te han dañado mucho, y eso, mi amor, no lo hace cualquiera; solo alguien que destila bondad y calidez con cada paso que da.",
+            "\t2) Eres una de las personas más talentosas y hábiles que he conocido, mi vida. Tu capacidad para aprender cosas y poder expresarte en público es algo que realmente es digno de admirar, y aunque no creas que eres alguien así de talentosa, realmente lo eres. Es por eso que resaltas sin quererlo, porque las estrellas están hechas para brillar, incluso en los cielos más oscuros.",
+            "\t3) Otro motivo por el cual eres mi persona favorita es tu forma de ser, esa que me vuelve loco y que me hace tan feliz al tenerte cerca, y tan triste al estar lejos de ti. Tienes la capacidad de alegrar la vida de la gente, porque desde que llegas a sus vidas eliminas la palabra seriedad y aburrimiento, tal como lo hiciste conmigo, transformándola en sonrisas y felicidad.",
+            "\t4) La confianza que inspiras en mí y en los demás es algo invaluable. No sé si te lo he dicho, pero siento que puedo confiar en ti plenamente, ya que me has demostrado desde el primer momento lo genuina y honesta que eres con tus palabras y acciones, y eso es algo que valoro mucho de ti, mi amor.",
+            "\t5) Y por último, pero no menos importante, es tu gran fortaleza. A pesar de lo dura que ha sido la vida contigo, sigues luchando y levantándote, no solo por ti, sino por los que te rodean. Tienes un alma tan fuerte y valiente que no deja de sorprenderme lo admirable que eres… PD: No me olvidé de tu hermosa voz y tu manera de bailar, que cautivan <3.",
+            "\tAhora mantén presionado el ENTER mi amor."
+        ];
+
+        const teAmoRepeticiones = 120;
+
+        function scrollToBottom() {
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function nextMessage() {
+            if (step < mensajes.length) {
+                output.innerHTML += mensajes[step] + "\n";
+                step++;
+                scrollToBottom();
+            } else if (step === mensajes.length) {
+                output.innerHTML += "\n";
+                step++;
+            } else if (step > mensajes.length && step <= mensajes.length + teAmoRepeticiones) {
+                output.innerHTML += " ".repeat(step - mensajes.length) + "TE AMO\n";
+                scrollToBottom();
+                step++;
+            } else {
+                document.removeEventListener('keydown', handleEnterKey);
+                output.innerHTML += "Y nunca lo olvides Dayane Díaz Velasquez que te amo 121 veces con todo mi alma💖";
+                scrollToBottom();
+            }
+        }
+
+        function handleEnterKey(event) {
+            if (event.key === "Enter") {
+                if (startMessage) {
+                    startMessage.remove();
+                }
+                backgroundMusic.play();
+                nextMessage();
+            }
+        }
+
+        document.addEventListener('keydown', handleEnterKey);
+
+        heartButton.addEventListener('click', () => {
+            if (floatingMenu.style.display === "none" || floatingMenu.style.display === "") {
+                floatingMenu.style.display = "block";
+            } else {
+                floatingMenu.style.display = "none";
+            }
+        });
+
+        // Función para mostrar la sección seleccionada y ocultar las demás
+        function showSection(targetId) {
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+
+            // Ocultar el contenido principal cuando una sección está activa
+            document.querySelector('.background-grid').style.display = 'none';
+            document.querySelector('h1').style.display = 'none';
+            document.querySelector('.output').style.display = 'none';
+            document.querySelector('.start-message').style.display = 'none';
+        }
+
+        // Agregar eventos a los enlaces del menú flotante
+        const menuLinks = document.querySelectorAll('.floating-menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.getAttribute('data-target');
+                if (target) {
+                    showSection(target);
+                } else if (link.id === "inicio") {
+                    location.reload(); // Volver al inicio
+                }
+                floatingMenu.style.display = "none"; // Ocultar el menú después de seleccionar
+            });
+        });
+
+        // Función para mostrar las imágenes en la galería
+        uploadPhoto.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.classList.add('gallery-image'); // Añadir clase para las imágenes de la galería
+                    img.onclick = function() {
+                        openModal(img.src); // Llamar a la función para abrir el modal
+                    };
+                    galleryPreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Función para abrir el modal con la imagen
+        function openModal(src) {
+            modal.style.display = "block";
+            modalImg.src = src;
+        }
+
+        // Cerrar el modal al hacer clic en la X
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Cerrar el modal al hacer clic fuera de la imagen
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Función para eliminar fotos
+        clearGallery.addEventListener('click', function() {
+            galleryPreview.innerHTML = ''; // Limpiar la vista previa de la galería
+        });
+
+    </script>
+
+</body>
+</html>
